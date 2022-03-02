@@ -103,9 +103,17 @@ public class Main {
         return data/time;
     }
     public void printTable(){
+        DuplicateRemover r1 = new RemoveDuplicates1();
+        DuplicateRemover r2 = new RemoveDuplicates2();
+        DuplicateRemover r3 = new RemoveDuplicates3();
         System.out.println("n\tt1\ta1\tt2\ta2\tt3\ta3");
         for (int i = 1000; i <= tenSecMaxN; i+=(tenSecMaxN-1000)/10) {
-            System.out.println(i);
+            int[] generatedData = generateData(i);
+            double t1 = r1.runTimed(generatedData);
+            double t2 = r2.runTimed(generatedData);
+            double t3 = r3.runTimed(generatedData);
+
+          
         }
     }
 
