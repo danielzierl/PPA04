@@ -112,6 +112,7 @@ public class Main {
             double t1 = r1.runTimed(generatedData);
             double t2 = r2.runTimed(generatedData);
             double t3 = r3.runTimed(generatedData);
+            System.out.format("");
 
           
         }
