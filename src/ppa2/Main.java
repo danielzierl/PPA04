@@ -10,20 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
-
-        int[] data = main.generateData(10);
-        int[] reducedData1 = new RemoveDuplicates1().removeDuplicates(data);
-        int[] reducedData2 = new RemoveDuplicates2().removeDuplicates(data);
-        int[] reducedData3 = new RemoveDuplicates3().removeDuplicates(data);
-        if(!Arrays.equals(reducedData1, reducedData2) &&!Arrays.equals(reducedData1, reducedData3) && Arrays.equals(reducedData2, reducedData3)){
-            System.out.println("jedna nefunguje");
-        }
-        if(Arrays.equals(reducedData1, reducedData3) &&!Arrays.equals(reducedData2, reducedData1) &&!Arrays.equals(reducedData2, reducedData3)){
-            System.out.println("dva nefunguje");
-        }
-        if(Arrays.equals(reducedData1, reducedData2) &&!Arrays.equals(reducedData3, reducedData1) &&!Arrays.equals(reducedData3, reducedData2)){
-            System.out.println("3 nefunuje");
-        }
         main.printSlowest();
         main.printTable();
 
@@ -47,7 +33,6 @@ public class Main {
         DuplicateRemover r1= new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
         DuplicateRemover r3 = new RemoveDuplicates3();
-
         int dataIncrement = 1000;
         double ratio1 = checkXSecond(r1, dataIncrement,1,false);
         double ratio2 = checkXSecond(r2, dataIncrement,1,false);
@@ -80,7 +65,7 @@ public class Main {
             counter++;
 
         }while (time<thresholdTimeSeconds);
-        System.out.format("Metoda %s trvala pres %d sekund (konkretne %f )pro n = %d \n",duplicateRemover.toString(), thresholdTimeSeconds,time, data);
+        System.out.format("Metoda %s trvala pres %d sekund (konkretne %f ) pro n = %d \n",duplicateRemover.toString(), thresholdTimeSeconds,time, data);
         if (saved)tenSecMaxN=data;
         return data/time;
 
@@ -99,20 +84,31 @@ public class Main {
             }
 
         }while (time<thresholdTimeSeconds);
-        System.out.format("Metoda %s trvala pres %d sekund (konkretne %f )pro n = %d \n",duplicateRemover.toString(), thresholdTimeSeconds, time, data);
+        System.out.format("Metoda %s trvala pres %d sekund (konkretne %f ) pro n = %d \n",duplicateRemover.toString(), thresholdTimeSeconds, time, data);
         return data/time;
     }
     public void printTable(){
         DuplicateRemover r1 = new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
         DuplicateRemover r3 = new RemoveDuplicates3();
-        System.out.println("n\tt1\ta1\tt2\ta2\tt3\ta3");
+        System.out.format("%s\t\t%s  \t\t%s  \t\t%s  \t\t%s  \t\t%s  \t\t%s%n", "n","t1","a1","t2","a2","t3","a3");
         for (int i = 1000; i <= tenSecMaxN; i+=(tenSecMaxN-1000)/10) {
             int[] generatedData = generateData(i);
             double t1 = r1.runTimed(generatedData);
             double t2 = r2.runTimed(generatedData);
             double t3 = r3.runTimed(generatedData);
-            System.out.format("");
+            double slowestTime=0;
+
+            if (slowestDR instanceof RemoveDuplicates1){
+                slowestTime=t1;
+            }
+            if (slowestDR instanceof RemoveDuplicates2){
+                slowestTime=t2;
+            }
+            if (slowestDR instanceof RemoveDuplicates3){
+                slowestTime=t3;
+            }
+            System.out.format("%d\t%f\t%f\t%f\t%f\t%f\t%f%n",i, t1,slowestTime/t1,t2,slowestTime/t2,t3,slowestTime/t3);
 
           
         }

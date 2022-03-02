@@ -28,7 +28,6 @@ public class RemoveDuplicates1 extends AbstractRemover implements DuplicateRemov
 	 */
 	public int[] removeDuplicates(int[] data) {
 		int[] result = data;
-		boolean[] removedIndexes = new boolean[data.length];
 		for (int i = 0; i < result.length; i++) {
 			for (int j = i + 1; j < result.length; j++) {
 				if (result[j] == result[i]) {
