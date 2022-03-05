@@ -11,6 +11,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
+        int[] gen = main.generateData(10);
+        int[] data1 = new RemoveDuplicates1().removeDuplicates(gen);
+        int[] data2 = new RemoveDuplicates2().removeDuplicates(gen);
+        int[] data3 = new RemoveDuplicates3().removeDuplicates(gen);
+
         long t1 = System.currentTimeMillis();
         main.printSlowest();
         main.printTable();
@@ -36,10 +41,10 @@ public class Main {
         DuplicateRemover r1= new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
         DuplicateRemover r3 = new RemoveDuplicates3();
-        int dataIncrement = 500;
+        int dataIncrement = 5;
         double ratio1 = checkXSecond(r1, dataIncrement,1,false);
         double ratio2 = checkXSecond(r2, dataIncrement,1,false);
-        double ratio3 = checkXSecondExponentially(r3, dataIncrement,1);
+        double ratio3 = checkXSecond(r3, dataIncrement,1,false);
         if (ratio1<ratio2&&ratio1<ratio3){
             System.out.println("Nejpomalejsi je "+ r1.toString());
             slowestDR = r1;
@@ -64,7 +69,14 @@ public class Main {
         int counter=0;
         try{
         do {
-            data= (int) (dataIncrement*counter*counter);
+            if(Math.abs(time-thresholdTimeSeconds)>0.3*thresholdTimeSeconds){
+                data+= (int) (dataIncrement*Math.exp(counter));
+            }else if(Math.abs(time-thresholdTimeSeconds)>0.01*thresholdTimeSeconds){
+                data+= (dataIncrement*counter*counter);
+            }else {
+                data *= 1.05;
+            }
+
 
             time = duplicateRemover.runTimed(generateData(data));
             counter++;
@@ -81,28 +93,7 @@ public class Main {
         return data/time;
 
     }
-    public double checkXSecondExponentially(DuplicateRemover duplicateRemover, int dataIncrement,int thresholdTimeSeconds) throws Exception {
-        double time=0;
-        int data=0;
-        int counter=0;
 
-        try{
-            do {
-                data= (int) (dataIncrement*Math.exp(counter));
-
-                time = duplicateRemover.runTimed(generateData(data));
-                counter++;
-
-
-            }while (time<thresholdTimeSeconds);
-            System.out.format("Metoda %s trvala pres %d sekund (konkretne %f ) pro n = %d \n",duplicateRemover.toString(), thresholdTimeSeconds, time, data);
-        }catch (OutOfMemoryError ex){
-            System.out.format("Zda se ze dosla pamet pro %s, predbezne zastavuji na %f sekundy pro n = %d %n",duplicateRemover, time, data);
-        }
-
-
-        return data/time;
-    }
     public void printTable(){
         DuplicateRemover r1 = new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();

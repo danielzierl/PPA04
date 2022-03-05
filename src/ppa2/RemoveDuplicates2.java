@@ -8,7 +8,7 @@ public class RemoveDuplicates2 extends AbstractRemover implements DuplicateRemov
 	 */
 	public int[] removeDuplicates(int[] data) {
 		int[] result = data;
-		for(int i = 0; i < result.length-1; i++){
+		for(int i = 0; i < result.length; i++){
 		//spocteme, kolik ma polozka result[i] duplikatu
 			int count = 0; //pocet duplikatu
 			for (int j = i + 1; j < result.length; j++) {
@@ -33,7 +33,7 @@ public class RemoveDuplicates2 extends AbstractRemover implements DuplicateRemov
 				}
 
 				result = newResult;
-				i--;
+				//i--;
 			}
 		}
 		return result;
