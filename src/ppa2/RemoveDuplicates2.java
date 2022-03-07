@@ -33,7 +33,7 @@ public class RemoveDuplicates2 extends AbstractRemover implements DuplicateRemov
 				}
 
 				result = newResult;
-				//i--;
+
 			}
 		}
 		return result;

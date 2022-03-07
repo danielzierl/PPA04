@@ -37,7 +37,7 @@ public class Main {
         }
         return result;
     }
-    public void printSlowest() throws Exception {
+    public void printSlowest(){
         DuplicateRemover r1= new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
         DuplicateRemover r3 = new RemoveDuplicates3();
@@ -69,12 +69,14 @@ public class Main {
         int counter=0;
         try{
         do {
-            if(Math.abs(time-thresholdTimeSeconds)>0.3*thresholdTimeSeconds){
+            if(Math.abs(time-thresholdTimeSeconds)>0.5*thresholdTimeSeconds){
                 data+= (int) (dataIncrement*Math.exp(counter));
+            }else if(Math.abs(time-thresholdTimeSeconds)>0.1*thresholdTimeSeconds){
+                data+= (dataIncrement*counter*counter*counter);
             }else if(Math.abs(time-thresholdTimeSeconds)>0.01*thresholdTimeSeconds){
                 data+= (dataIncrement*counter*counter);
             }else {
-                data *= 1.05;
+                data+= (dataIncrement*counter);
             }
 
 
@@ -102,7 +104,6 @@ public class Main {
         System.out.println("----------------------------------------------------------------------");
         for (int i = 1000; i <= tenSecMaxN; i+=(tenSecMaxN-1000)/10) {
             int[] generatedData = generateData(i);
-
 
             double t1 = r1.runTimed(generatedData);
             double t2 = r2.runTimed(generatedData);
