@@ -1,20 +1,35 @@
 package ppa2;
 
-import java.util.Arrays;
 import java.util.Random;
 
-
+/**
+ * main class
+ */
 public class Main {
-    DuplicateRemover slowestDR;
-    int tenSecMaxN;
-    double finalTime;
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * instance of duplicate remover that has the slowest runtime and is calculated in method print slowest
+     */
+    DuplicateRemover slowestDR;
+
+    /**
+     * max number of elements we can remove duplicates from so that the slowest duplicate remover has a runtime close to 10 sec
+     */
+    int tenSecMaxN;
+    //double finalTime;
+
+    /**
+     * measures total runtime of the program and calls printSlowest, printTable
+     * @param args
+     */
+    public static void main(String[] args) {
         Main main = new Main();
-        int[] gen = main.generateData(10);
+
+        //old
+        /*int[] gen = main.generateData(10);
         int[] data1 = new RemoveDuplicates1().removeDuplicates(gen);
         int[] data2 = new RemoveDuplicates2().removeDuplicates(gen);
-        int[] data3 = new RemoveDuplicates3().removeDuplicates(gen);
+        int[] data3 = new RemoveDuplicates3().removeDuplicates(gen);*/
 
         long t1 = System.currentTimeMillis();
         main.printSlowest();
@@ -37,6 +52,10 @@ public class Main {
         }
         return result;
     }
+
+    /**
+     * A method that tries all removeDuplicates methods for 1 sec and saved the slowest one
+     */
     public void printSlowest(){
         DuplicateRemover r1= new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
@@ -63,6 +82,15 @@ public class Main {
 
 
     }
+
+    /**
+     *  checks when the removeDuplicates goes over a specified threshold time, if not it selects the correct growth function
+     * @param duplicateRemover algorithm that can remove duplicates from an array
+     * @param dataIncrement a constant changing the growing rates
+     * @param thresholdTimeSeconds threshold in seconds until which we test
+     * @param saved saves the data about the run
+     * @return data to time ratio of running algorithm
+     */
     public double checkXSecond(DuplicateRemover duplicateRemover, int dataIncrement, int thresholdTimeSeconds,boolean saved){
         double time=0;
         int data=0;
@@ -90,12 +118,15 @@ public class Main {
         }
         if (saved){
             tenSecMaxN=data;
-            finalTime=time;
+            //finalTime=time;
         }
         return data/time;
 
     }
 
+    /**
+     * prints the final table
+     */
     public void printTable(){
         DuplicateRemover r1 = new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
@@ -122,7 +153,7 @@ public class Main {
             }
             System.out.format("%d\t|%f\t%f\t%f\t%f\t%f\t%f%n",i, t1,slowestTime/t1,t2,slowestTime/t2,t3,slowestTime/t3);
 
-          
+
         }
     }
 
