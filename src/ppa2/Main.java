@@ -50,6 +50,7 @@ public class Main {
         for (int i = 0; i < result.length; i++) {
             result[i] = r.nextInt(100000);
         }
+        System.out.println("gen "+count);
         return result;
     }
 
@@ -60,7 +61,7 @@ public class Main {
         DuplicateRemover r1= new RemoveDuplicates1();
         DuplicateRemover r2 = new RemoveDuplicates2();
         DuplicateRemover r3 = new RemoveDuplicates3();
-        int dataIncrement = 5;
+        int dataIncrement = 10;
         double ratio1 = checkXSecond(r1, dataIncrement,1,false);
         double ratio2 = checkXSecond(r2, dataIncrement,1,false);
         double ratio3 = checkXSecond(r3, dataIncrement,1,false);
@@ -93,21 +94,18 @@ public class Main {
      */
     public double checkXSecond(DuplicateRemover duplicateRemover, int dataIncrement, int thresholdTimeSeconds,boolean saved){
         double time=0;
-        int data=0;
+        int data=1;
         int counter=0;
         try{
         do {
-            if(Math.abs(time-thresholdTimeSeconds)>0.5*thresholdTimeSeconds){
-                data+= (int) (dataIncrement*Math.exp(counter));
-            }else if(Math.abs(time-thresholdTimeSeconds)>0.1*thresholdTimeSeconds){
-                data+= (dataIncrement*counter*counter*counter);
-            }else if(Math.abs(time-thresholdTimeSeconds)>0.01*thresholdTimeSeconds){
-                data+= (dataIncrement*counter*counter);
-            }else {
-                data+= (dataIncrement*counter);
+
+            if(Math.abs(time-thresholdTimeSeconds)>0.5*thresholdTimeSeconds) {
+                data += dataIncrement*Math.exp(counter);
+            }else if(Math.abs(time-thresholdTimeSeconds)>0.2*thresholdTimeSeconds) {
+                data += dataIncrement*counter*counter*counter*counter;
+            }else{
+                data+=dataIncrement*counter*counter*counter;
             }
-
-
             time = duplicateRemover.runTimed(generateData(data));
             counter++;
 
