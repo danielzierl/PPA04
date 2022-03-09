@@ -1,5 +1,8 @@
 package ppa2;
 
+/**
+ * class containing duplicator remover 1 with method that removes duplicate entries in an array
+ */
 public class RemoveDuplicates1 extends AbstractRemover implements DuplicateRemover{
 	/**
 	 * Odstrani z pole prvek na indexu index
@@ -31,7 +34,6 @@ public class RemoveDuplicates1 extends AbstractRemover implements DuplicateRemov
 		for (int i = 0; i < result.length; i++) {
 			for (int j = i + 1; j < result.length; j++) {
 				if (result[j] == result[i]) {
-					//removedIndexes[j]=true;
 					result = removeItem(result, j);
 					j--;
 
@@ -40,6 +42,11 @@ public class RemoveDuplicates1 extends AbstractRemover implements DuplicateRemov
 		}
 		return result;
 	}
+
+	/**
+	 *
+	 * @return name of the duplicate remover
+	 */
 	public String toString(){
 		return "Remove Duplicates 1";
 	}

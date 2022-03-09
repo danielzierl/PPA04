@@ -1,5 +1,8 @@
 package ppa2;
 
+/**
+ * class containing duplicator remover 3 with method that removes duplicate entries in an array
+ */
 public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemover{
 	/**
 	 * Pouziva redukci pomoci pole zaznamu, zda dane cislo bylo nalezeno v datech ci nikoli
@@ -30,6 +33,10 @@ public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemov
 		}
 		return result;
 	}
+	/**
+	 *
+	 * @return name of the duplicate remover
+	 */
 	public String toString(){
 		return "Remove Duplicates 3";
 	}
