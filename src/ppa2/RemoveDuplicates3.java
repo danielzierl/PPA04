@@ -1,16 +1,17 @@
 package ppa2;
 
-/**
- * class containing duplicator remover 3 with method that removes duplicate entries in an array
- */
-public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemover{
+	/**
+	 * class containing duplicator remover 3 with method that removes duplicate entries in an array
+	 */
+	public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemover {
 	/**
 	 * Pouziva redukci pomoci pole zaznamu, zda dane cislo bylo nalezeno v datech ci nikoli
+	 *
 	 * @param data vstupni pole dat
 	 * @return vysledna data s odstranenymi duplikaty
 	 */
 	public int[] removeDuplicates(int[] data) {
-//nejdrive jen zjistime, kolik mame unikatnich cisel
+	//nejdrive jen zjistime, kolik mame unikatnich cisel
 		boolean[] encountered = new boolean[1000000];
 		int count = 0; //pocet unikatnich cisel
 		for (int i = 0; i < data.length; i++) {
@@ -19,8 +20,8 @@ public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemov
 				count++;
 			}
 		}
-//v promenne count je ted pocet unikatnich cisel
-//pole encountered ted pouzijeme jeste jednou stejnym zpusobem
+	//v promenne count je ted pocet unikatnich cisel
+	//pole encountered ted pouzijeme jeste jednou stejnym zpusobem
 		encountered = new boolean[1000000];
 		int[] result = new int[count];
 		int index = 0;
@@ -33,11 +34,11 @@ public class RemoveDuplicates3 extends AbstractRemover implements DuplicateRemov
 		}
 		return result;
 	}
+
 	/**
-	 *
 	 * @return name of the duplicate remover
 	 */
-	public String toString(){
+	public String toString() {
 		return "Remove Duplicates 3";
 	}
 
