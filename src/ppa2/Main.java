@@ -5,6 +5,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * main class
+ * @author Daniel Zierl
  */
 public class Main {
 
@@ -42,7 +43,6 @@ public class Main {
 		main.printSlowest();
 		main.printTable();
 
-
 		System.out.println("All done. Total runtime: " + ((System.currentTimeMillis() - t1) / 1000.0) + " seconds");
 	}
     private void init(){
@@ -59,13 +59,17 @@ public class Main {
 	 * @return pole nahodnych cisel
 	 */
 	public static int[] generateData(int count) throws TimeoutException {
-		if (count > 50000000) {
-			throw new TimeoutException("data count was too long ");
-		}
+		long t1 = System.nanoTime();
+
 		int[] result = new int[count];
 		Random r = new Random();
 		for (int i = 0; i < result.length; i++) {
 			result[i] = r.nextInt(100000);
+		}
+		double genTime = (System.nanoTime()-t1)/1000000000.0;
+		if (genTime>1) {
+			//tadyto se da odmazat kdyby jakoze fakt nekdo chtel videt ty vetsi data, ale bottleneckuje mi tu generateData() a je asi zbytecny pocitat tolik cisel
+			throw new TimeoutException("data count was too big ");
 		}
 		return result;
 	}
@@ -75,12 +79,14 @@ public class Main {
 	 */
 	public void printSlowest() {
 
+
 		double ratio1 = checkXSecond(r1, 1, false);
 		double ratio2 = checkXSecond(r2, 1, false);
 		double ratio3 = checkXSecond(r3, 1, false);
 		calcSlowestRemoverBasedOnRatios(ratio1,ratio2,ratio3);
 
 		System.out.format("%nMerim %s pro 10 sekund, prosim nezastavovat%n%n", slowestDuplicateRemover.toString());
+
 		checkXSecond(slowestDuplicateRemover, 10, true);
 	}
     private void calcSlowestRemoverBasedOnRatios(double ratio1, double ratio2, double ratio3){
@@ -111,7 +117,15 @@ public class Main {
 		int data = 1000;
 		try {
 			do {
-				data *= 1.15;
+				if (time<thresholdTimeSeconds*0.1){
+					data *= 3;
+				} else if (time<thresholdTimeSeconds*0.5){
+					data *= 1.5;
+				}else if(time<thresholdTimeSeconds*0.9){
+					data *= 1.15;
+				}else {
+					data *=1.1;
+				}
 				time = duplicateRemover.runTimed(generateData(data));
 			} while (time < thresholdTimeSeconds);
 			System.out.format("Metoda %s trvala pres %d sekund (konkretne %f ) pro n = %d \n", duplicateRemover, thresholdTimeSeconds, time, data);
@@ -139,10 +153,9 @@ public class Main {
 			double t2;
 			double t3;
 			double slowestTime ;
-
 			int[] generatedData = generateData(i);
 
-			//this if here shaves off around 10 seconds from runtime, could be just the else part, but it will be slower
+			//this if here shaves off about 10 seconds from the runtime, could be just the else part, but it would be slower
 			if (i > tenSecondsElements - 11) {
 				if (slowestDuplicateRemover instanceof RemoveDuplicates1) {
 					t1 = finalTime;
@@ -162,9 +175,11 @@ public class Main {
 				t2 = r2.runTimed(generatedData);
 				t3 = r3.runTimed(generatedData);
 			}
-			//optimisation
+
+			//optimization
 			slowestTime=getSlowestTime(t1,t2,t3);
 
+			//print the table
 			System.out.format("%d\t%f  \t%f  \t%f  \t%f  \t%f  \t%f%n", i, t1, slowestTime / t1, t2, slowestTime / t2, t3, slowestTime / t3);
 
 

@@ -7,8 +7,8 @@
 		public double runTimed(int[] data) {
 			long t1 = System.nanoTime();
 			removeDuplicates(data);
-			long t2 = System.nanoTime();
+
 			//return in seconds
-			return ((t2 - t1) / 1000000000.0);
+			return ((System.nanoTime() - t1) / 1000000000.0);
 		}
 	}
